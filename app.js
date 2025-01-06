@@ -24,12 +24,12 @@ app.use("/", signUpController);
 app.use("/", authController);
 
 app.get("/", (req, res) => {
-  if (req.session.viewCount) {
-    req.session.viewCount = req.session.viewCount + 1;
-  } else {
-    req.session.viewCount = 1;
-  }
-  console.log(req.session);
+  // if (req.session.viewCount) {
+  //   req.session.viewCount = req.session.viewCount + 1;
+  // } else {
+  //   req.session.viewCount = 1;
+  // }
+  // console.log(req.session);
 
   res.render("index", { user: req.user });
 });

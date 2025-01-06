@@ -5,6 +5,7 @@ const LocalStrategy = require("passport-local");
 const pool = require("../db/pool");
 const bcrypt = require("bcryptjs");
 const controller = require("../controllers/logInController");
+const isAuth = require("./authMiddleware").isAuth;
 passport.use(
   new LocalStrategy(async (username, password, done) => {
     try {
@@ -12,6 +13,7 @@ passport.use(
         "SELECT * FROM users WHERE username = $1",
         [username]
       );
+
       const user = rows[0];
 
       if (!user) {
@@ -61,4 +63,9 @@ router.get("/log-out", (req, res, next) => {
     res.redirect("/");
   });
 });
+
+router.get("/protected-route", isAuth, (req, res, next) => {
+  res.render("../views/index", { user: req.user });
+});
+
 module.exports = router;
